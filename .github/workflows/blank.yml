@@ -4,7 +4,10 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0,20,40 * * * *'
+    # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
   pull_request:
