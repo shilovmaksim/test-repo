@@ -24,7 +24,11 @@ jobs:
           toolsetVersions=("3.8" "3.7" "3.6" "2.7")
 
           for toolsetVersion in $toolsetVersions; do
-              latestMajorPyPyVersion=$(curl $uri | jq --arg toolsetVersion $toolsetVersions '.[] | select((.python_version | contains($toolsetVersion)) and .stable == true).files[] | select(.arch == "x64" and .platform == "linux").download_url' | head -1)
+              latestMajorPyPyVersion=$(curl $uri `
+                  | jq --arg toolsetVersion $toolsetVersions '.[] | select((.python_version `
+                      | contains($toolsetVersion)) and .stable == true).files[] `
+                      | select(.arch == "x64" and .platform == "linux").download_url' `
+                  | head -1)
 
               if [[ -z "$latestMajorPyPyVersion" ]]; then
                   echo "Failed to get PyPy version '$toolsetVersion'"
