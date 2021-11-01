@@ -24,6 +24,6 @@ jobs:
           toolsetVersion="3.8"
 
           echo $pypyVersions |
-            jq --arg toolsetVersion $toolsetVersion '.[]
+            jq -r --arg toolsetVersion $toolsetVersion '.[]
             | select((.python_version | contains($toolsetVersion)) and .stable == true).files[]
             | select(.arch == "x64" and .platform == "linux").download_url' | head -1
