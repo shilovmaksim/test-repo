@@ -23,7 +23,7 @@ jobs:
           pypyVersions=$(curl https://downloads.python.org/pypy/versions.json)
           toolsetVersion="3.8"
 
-          echo $pypyVersions |
-            jq -r --arg toolsetVersion $toolsetVersion '.[]
+          echo $pypyVersions
+            | jq -r --arg toolsetVersion $toolsetVersion '.[]
             | select((.python_version | contains($toolsetVersion)) and .stable == true).files[]
             | select(.arch == "x64" and .platform == "linux").download_url' | head -1
