@@ -20,19 +20,11 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          uri="https://downloads.python.org/pypy/versions.json"
-          toolsetVersions=("3.8" "3.7" "3.6" "2.7")
+          pypyVersions=$(curl https://downloads.python.org/pypy/versions.json)
+          toolsetVersion="3.8"
 
-          for toolsetVersion in $toolsetVersions; do
-              latestMajorPyPyVersion=$(curl $uri `
-                  | jq --arg toolsetVersion $toolsetVersions '.[] | select((.python_version `
-                      | contains($toolsetVersion)) and .stable == true).files[] `
-                      | select(.arch == "x64" and .platform == "linux").download_url' `
-                  | head -1)
-
-              if [[ -z "$latestMajorPyPyVersion" ]]; then
-                  echo "Failed to get PyPy version '$toolsetVersion'"
-              fi
-
-              echo "Installing '$latestMajorPyPyVersion'"
-          done
+          echo $pypyVersions |
+            jq --arg toolsetVersion $toolsetVersion '.[]
+            | select((.python_version | contains($toolsetVersion)) and .stable == true).files[]
+            | select(.arch == "x64" and .platform == "linux").download_url'
+            | head -1
