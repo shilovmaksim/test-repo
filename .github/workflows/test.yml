@@ -11,7 +11,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -20,7 +20,5 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          $response = Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -UseBasicParsing -OutFile DataDome-Apache-latest.tgz -Verbose -Debug
-          $response.Dispose() 
+          wget -no-cookies --no-check-certificate https://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
-        shell: pwsh
