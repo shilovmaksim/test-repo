@@ -20,6 +20,7 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -UseBasicParsing -OutFile DataDome-Apache-latest.tgz -Verbose -Debug
+          $response = Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -UseBasicParsing -OutFile DataDome-Apache-latest.tgz -Verbose -Debug
+          $response.Dispose() 
           ls
         shell: pwsh
