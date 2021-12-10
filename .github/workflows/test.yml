@@ -20,5 +20,5 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          wget -no-cookies --no-check-certificate https://package.datadome.co/linux/DataDome-Apache-latest.tgz
+          wget --no-cookies --no-check-certificate https://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
