@@ -17,5 +17,5 @@ jobs:
     steps:
       - name: Run a multi-line script
         run: |
-          wget  http://package.datadome.co/linux/DataDome-Apache-latest.tgz
+          wget  https://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
