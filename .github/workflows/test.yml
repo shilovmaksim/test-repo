@@ -11,11 +11,11 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Run a multi-line script
         run: |
-          wget  http://34.243.206.89/linux/DataDome-Apache-latest.tgz --header "Host: package.datadome.co"
+          wget  http://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
