@@ -20,6 +20,6 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -OutFile DataDome-Apache-latest.tgz
+          Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -OutFile DataDome-Apache-latest.tgz -TimeoutSec 600
           ls
         shell: pwsh
