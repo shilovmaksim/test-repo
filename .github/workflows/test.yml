@@ -13,14 +13,14 @@ jobs:
     steps:
       - name: Download on ubuntu
         run: |
-          wget  http://package.datadome.co/linux/DataDome-Apache-latest.tgz
+          wget --tries=1 http://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
   macos:
     runs-on: macos-latest
     steps:
       - name: Download on MacOS
         run: |
-          wget  http://package.datadome.co/linux/DataDome-Apache-latest.tgz
+          wget http://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
   windows:
     runs-on: windows-latest
