@@ -23,7 +23,7 @@ jobs:
           wget  http://package.datadome.co/linux/DataDome-Apache-latest.tgz
           ls
   windows:
-    runs-on:
+    runs-on: windows-latest
     steps:
       - name: Download on windows
         run: |
