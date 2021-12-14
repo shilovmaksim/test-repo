@@ -4,7 +4,7 @@ name: Test
 
 # Controls when the workflow will run
 on:
-  workflow_dispatch:
+  repository_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -12,4 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Greetings
-        run: echo "Hello world"
+        run: |
+          Write-Host "Hello world"
+          Start-Sleep -seconds 60
+        shell: pwsh
