@@ -11,21 +11,5 @@ jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - name: Download on ubuntu
-        run: |
-          wget --tries=1 http://package.datadome.co/linux/DataDome-Apache-latest.tgz
-          ls
-  macos:
-    runs-on: macos-latest
-    steps:
-      - name: Download on MacOS
-        run: |
-          wget http://package.datadome.co/linux/DataDome-Apache-latest.tgz
-          ls
-  windows:
-    runs-on: windows-latest
-    steps:
-      - name: Download on windows
-        run: |
-          Invoke-WebRequest https://package.datadome.co/linux/DataDome-Apache-latest.tgz -UseBasicParsing -OutFile DataDome-Apache-latest.tgz -Verbose -Debug
-          ls
+      - name: Greetings
+        run: echo "Hello world"
