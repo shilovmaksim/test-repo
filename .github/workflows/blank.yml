@@ -1,18 +1,35 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Python versions runner
 on:
   workflow_dispatch:
+    inputs:
+      versions:
+        description: 'Versions to build'
+        required: true
+      publish-releases:
+        description: 'Whether to publish releases'
+        required: true
+        default: 'false'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
-  ubuntu:
+  process-inpit:
     runs-on: ubuntu-latest
     steps:
-      - name: Greetings
+      - id: split-input
+        name: Split input into array
         run: |
-          Write-Host "Hello world"
-          Start-Sleep -seconds 60
-        shell: pwsh
+          $array = (${{ github.event.inputs.versions }}).split(",")
+          Write-Host "::set-output name=tool-versions::${array}"
+
+  trigger_builds:
+    needs: process-inpit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ needs.process-inpit.split-input.outputs.tool-versions }}
+    steps:
+      - run: Write-Host "${{ matrix.version }}"
