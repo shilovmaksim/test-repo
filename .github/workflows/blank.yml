@@ -34,7 +34,7 @@ jobs:
             Authorization="Bearer ${{ secrets.PERSONAL_TOKEN }}"
           }
           Invoke-RestMethod -uri "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/dispatches" -method POST -headers $headers -body $payload
-          Start-Sleep -seconds 5
+          Start-Sleep -seconds 15
           $workflowRuns = (Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs").workflow_runs | Where-Object {$_.status -like "*progress*" -and $_.id -ne $env:GITHUB_RUN_ID}
           $version = ${{ matrix.version }}
           $workflowToCheck = $workflowRuns | Where-Object {((Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs/$($_.id)/jobs").jobs.steps.name -like "*$version").Count -gt 0}
