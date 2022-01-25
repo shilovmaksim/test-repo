@@ -23,3 +23,29 @@ jobs:
         version: '${{ fromJson(github.event.inputs.versions) }}'
     steps:
       - run: Write-Host "${{ matrix.version }}"
+      - run: |
+          $payload = @{
+            "event_type" = "test-workflow-trigger"
+            "client_payload" = @{
+              "version" = "${{ matrix.version }}"
+            }
+          } | Convertfrom-Json
+          Start-Sleep -seconds 5
+          $workflowRuns = (Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs").workflow_runs | Where-Object {$_.status -like "*progress*"}
+          $workflowToCheck = $workflowRuns | Where-Object {((Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$($_.id)/jobs").jobs.steps.name -like "*${{ matrix.version }}").Count -gt 0}
+          
+          Write-Host "Triggered workflow with Id: $($workflowToCheck.id) , Url: $($workflowToCheck.url)"
+          while ($workflowToCheck.status -ne "completed") {
+            Start-Sleep -Seconds 20
+            $workflowToCheck = Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$($workflowToCheck.id)
+            if (!$workflowToCheck) {
+              Write-Host "No workflow triggered or something went wrong with fetching its status"
+              exit 1
+            }
+            Write-Host "Workflow run with Id: $($workflowToCheck.id) - status '$($workflowToCheck.status)'"
+          }
+          if ($workflowToCheck.conclusion -ne "success") {
+            Write-Host "Triggered workflow completed with result '$($workflowToCheck.conclusion)'. Check logs: $($workflowToCheck.logs_url)"
+            exit 1
+          }
+          Write-Host "Triggered workflow succeeded; Url: $($workflowToCheck.url)"

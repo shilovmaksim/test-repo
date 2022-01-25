@@ -12,7 +12,7 @@ jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - env:
-          MESSAGE: ${{ github.event.client_payload.version }}
-        run: echo $MESSAGE
+      - run: echo ${{ github.event.client_payload.version }}
+        shell: pwsh
+      - run: Start-Sleep -seconds 20
         shell: pwsh
