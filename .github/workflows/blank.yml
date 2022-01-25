@@ -1,4 +1,3 @@
-
 name: Python versions runner
 on:
   workflow_dispatch:
@@ -16,23 +15,11 @@ defaults:
     shell: pwsh
 
 jobs:
-  process-inpit:
-    runs-on: ubuntu-latest
-    outputs:
-      tool-versions: ${{ steps.split-input.outputs.tool-versions }}
-    steps:
-      - id: split-input
-        name: Split input into array
-        run: |
-          $array = "${{ github.event.inputs.versions }}".split(",")
-          Write-Host "::set-output name=tool-versions::${array}"
-
   trigger_builds:
-    needs: process-inpit
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ needs.process-inpit.outputs.tool-versions }}
+        version: '${{ fromJson(github.event.inputs.versions) }}'
     steps:
       - run: Write-Host "${{ matrix.version }}"
