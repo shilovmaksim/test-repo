@@ -21,7 +21,7 @@ jobs:
       - id: split-input
         name: Split input into array
         run: |
-          $array = (${{ github.event.inputs.versions }}).split(",")
+          $array = "${{ github.event.inputs.versions }}".split(",")
           Write-Host "::set-output name=tool-versions::${array}"
 
   trigger_builds:
