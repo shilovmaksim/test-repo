@@ -30,6 +30,10 @@ jobs:
               "version" = "${{ matrix.version }}"
             }
           } | Convertfrom-Json
+          $headers = @{
+            Authorization="Bearer ${{ secrets.PERSONAL_TOKEN }}"
+          }
+          Invoke-RestMethod -uri "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/dispatches -method POST -headers $headers -body $payload
           Start-Sleep -seconds 5
           $workflowRuns = (Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs").workflow_runs | Where-Object {$_.status -like "*progress*"}
           $workflowToCheck = $workflowRuns | Where-Object {((Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$($_.id)/jobs").jobs.steps.name -like "*${{ matrix.version }}").Count -gt 0}
@@ -37,7 +41,7 @@ jobs:
           Write-Host "Triggered workflow with Id: $($workflowToCheck.id) , Url: $($workflowToCheck.url)"
           while ($workflowToCheck.status -ne "completed") {
             Start-Sleep -Seconds 20
-            $workflowToCheck = Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$($workflowToCheck.id)
+            $workflowToCheck = Invoke-RestMethod "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$($workflowToCheck.id)"
             if (!$workflowToCheck) {
               Write-Host "No workflow triggered or something went wrong with fetching its status"
               exit 1
