@@ -17,6 +17,8 @@ defaults:
 jobs:
   process-inpit:
     runs-on: ubuntu-latest
+    outputs:
+      tool-versions: ${{ steps.split-input.outputs.tool-versions }}
     steps:
       - id: split-input
         name: Split input into array
@@ -30,6 +32,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ needs.process-inpit.split-input.outputs.tool-versions }}
+        version: ${{ needs.process-inpit.outputs.tool-versions }}
     steps:
       - run: Write-Host "${{ matrix.version }}"
