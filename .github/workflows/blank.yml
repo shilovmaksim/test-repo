@@ -40,7 +40,7 @@ jobs:
           
           foreach ($workflowRun in $workflowRuns) {
             $workflowRunJobs = (Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs/$($workflowRun.id)/jobs").jobs
-            if (($workflowRunJobs.steps.name -like "*$version").Count -gt 0 -and $workflowRun.id -eq $workflowRunJobs[0].id) {
+            if (($workflowRunJobs.steps.name -like "*$version*").Count -gt 0 -and $workflowRun.id -eq $workflowRunJobs[0].id) {
               $workflowToCheck = $workflowRun
             }
           }
