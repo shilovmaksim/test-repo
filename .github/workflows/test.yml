@@ -14,5 +14,5 @@ jobs:
     steps:
       - run: echo ${{ github.event.client_payload.version }}
         shell: pwsh
-      - run: Start-Sleep -seconds 20
+      - run: Start-Sleep -seconds 60
         shell: pwsh
