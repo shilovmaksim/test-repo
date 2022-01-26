@@ -25,15 +25,16 @@ jobs:
       - run: Write-Host "${{ matrix.version }}"
       - run: |
           $payload = @{
-            "event_type" = "test-workflow-trigger"
-            "client_payload" = @{
-              "version" = "${{ matrix.version }}"
+            "ref" = "main"
+            "inputs" = @{
+              "VERSION" = "${{ matrix.version }}"
+              "PUBLISH_RELEASES" = "false"
             }
           } | ConvertTo-Json
           $headers = @{
             Authorization="Bearer ${{ secrets.PERSONAL_TOKEN }}"
           }
-          Invoke-RestMethod -uri "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/dispatches" -method POST -headers $headers -body $payload
+          Invoke-RestMethod -uri "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/workflows/test-fail.yml/dispatches" -method POST -headers $headers -body $payload
           Start-Sleep -seconds 20
           $workflowRuns = (Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs").workflow_runs | Where-Object {$_.status -like "*progress*" -and $_.id -ne $env:GITHUB_RUN_ID}
           

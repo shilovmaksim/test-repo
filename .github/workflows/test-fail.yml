@@ -5,17 +5,22 @@ name: Test
 
 # Controls when the workflow will run
 on:
-  repository_dispatch:
-    types: [test-workflow-trigger-fail]
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Python version to build and upload'
+        required: true
+      PUBLISH_RELEASES:
+        description: 'Whether to publish releases'
+        required: true
+        default: 'false'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - name: Greetings
-        run: |
-          Write-Host "Hello world"
-          Start-Sleep -seconds 60
-          exit 1
+      - run: echo ${{ github.event.inputs.VERSION }}
+        shell: pwsh
+      - run: Start-Sleep -seconds 60
         shell: pwsh
