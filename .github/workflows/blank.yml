@@ -41,8 +41,8 @@ jobs:
           $workflowToCheck = $workflowRuns | Where-Object {
             Write-Host "$($_.id)"
             $workflowRunJobs = ("$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs/$($_.id)/jobs").jobs
-            $workflowRunJobs
-            $workflowRunJobs.steps.name
+            Write-Host "$workflowRunJobs"
+            Write-Host "$workflowRunJobs.steps.name"
             ($workflowRunJobs.steps.name -match "$version").Count -gt 0
           }
           Write-Host "Triggered workflow with Id: $($workflowToCheck.id) , Url: $($workflowToCheck.url)"
