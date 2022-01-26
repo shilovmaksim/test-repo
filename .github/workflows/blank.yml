@@ -38,12 +38,7 @@ jobs:
           $workflowRuns = (Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs").workflow_runs | Where-Object {$_.status -like "*progress*" -and $_.id -ne $env:GITHUB_RUN_ID}
           $version = ${{ matrix.version }}
           
-          foreach ($workflowRun in $workflowRuns) {
-            $workflowRunJobs = (Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs/$($workflowRun.id)/jobs").jobs
-            if (($workflowRunJobs.steps.name -like "*$version*").Count -gt 0 -and $workflowRun.id -eq $workflowRunJobs[0].id) {
-              $workflowToCheck = $workflowRun
-            }
-          }
+          $workflowToCheck = $workflowRuns | Where-Object {((Invoke-RestMethod "$env:GITHUB_API_URL/repos/$env:GITHUB_REPOSITORY/actions/runs/$($_.id)/jobs").jobs.steps.name -like "*$version*").Count -gt 0}
           Write-Host "Triggered workflow with Id: $($workflowToCheck.id) , Url: $($workflowToCheck.url)"
           while ($workflowToCheck.status -ne "completed") {
             Start-Sleep -Seconds 20
