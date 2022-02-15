@@ -4,13 +4,16 @@ name: Test Powershell
 on:
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - pwsh: Write-Host $PSVersionTable
+      - run: Write-Host $PSVersionTable
   windows:
     runs-on: windows-latest
     steps:
-      -pwsh: Write-Host $PSVersionTable
+      - run: Write-Host $PSVersionTable
