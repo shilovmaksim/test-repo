@@ -12,8 +12,8 @@ jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - run: Write-Host $PSVersionTable
+      - run: $PSVersionTable
   windows:
     runs-on: windows-latest
     steps:
-      - run: Write-Host $PSVersionTable
+      - run: $PSVersionTable
