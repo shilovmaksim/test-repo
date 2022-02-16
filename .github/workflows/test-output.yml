@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          $result = [PSCustomObject]@{
+          [array]$result = [PSCustomObject]@{
             Version = "3.10.0-rc.2";
             Conclusion = "success";
             Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594293"
