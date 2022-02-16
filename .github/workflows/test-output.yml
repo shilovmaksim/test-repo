@@ -1,0 +1,24 @@
+name: Test output
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          $result = [PSCustomObject]@{
+            Version = "3.10.0-rc.2";
+            Conclusion = "success";
+            Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594293"
+          }
+          $result += [PSCustomObject]@{
+            Version = "3.10.0";
+            Conclusion = "success";
+            Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594292"
+          }
+          $result
+        shell: pwsh
