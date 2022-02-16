@@ -20,5 +20,5 @@ jobs:
             Conclusion = "success";
             Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594292"
           }
-          $result | Foreach-Object {$_ | Out-String}
+          $result | Out-String
         shell: pwsh
