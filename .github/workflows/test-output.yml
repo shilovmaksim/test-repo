@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          [array]$result = [PSCustomObject]@{
+          [array]$result = @{
             Version = "3.10.0-rc.2";
             Conclusion = "success";
             Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594293"
           }
-          $result += [PSCustomObject]@{
+          $result += @{
             Version = "3.10.0";
             Conclusion = "success";
             Url = "https://github.com/shilovmaksim/python-versions/actions/runs/1851594292"
